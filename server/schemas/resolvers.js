@@ -55,17 +55,9 @@ const resolvers = {
       // If user attempts to execute this mutation and isn't logged in, throw an error
       throw new AuthenticationError('You need to be logged in!');
     },
-    // Set up mutation so a logged in user can only remove their profile and no one else's
-    removeBook: async (parent, {bookId}, context) => {
+    removeBook: async (parent, { bookId }, context) => {
       if (context.user) {
-        return User.findByIdAndUpdate({ _id: context.user._id });
-      }
-      throw new AuthenticationError('You need to be logged in!');
-    },
-    // Make it so a logged in user can only remove a skill from their own profile
-    removeSkill: async (parent, { skill }, context) => {
-      if (context.user) {
-        const updatedUser = Profile.findOneAndUpdate(
+        const updatedUser = User.findOneAndUpdate(
           { _id: context.user._id },
           { $pull: { savedBooks: { bookId } } },
           { new: true }
