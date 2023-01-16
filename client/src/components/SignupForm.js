@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-
 import { ADD_USER } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
 import Auth from '../utils/auth';
@@ -14,6 +13,7 @@ const SignupForm = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   const [addUser, { error, data }] = useMutation(ADD_USER);
+
 
   useEffect(() => {
     if (error) {
@@ -42,7 +42,7 @@ const SignupForm = () => {
       const { data } = await addUser({
         variables: { ...userFormData },
       });
-
+      console.log(data)
       Auth.login(data.addUser.token);
     } catch (e) {
       console.error(e);

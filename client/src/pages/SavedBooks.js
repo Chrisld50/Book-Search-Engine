@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 
@@ -24,10 +24,6 @@ const SavedBooks = () => {
         variables: { bookId },
       });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
       removeBookId(bookId);
     } catch (err) {
       console.error(err);
@@ -35,7 +31,7 @@ const SavedBooks = () => {
   };
 
   // if data isn't here yet, say so
-  if (!userDataLength) {
+  if (loading) {
     return <h2>LOADING...</h2>;
   }
 
